@@ -1,0 +1,6 @@
+[run]
+source = persistqueue
+branch = True
+include = nagiosunity/*
+[xml]
+output = coverage.xml
