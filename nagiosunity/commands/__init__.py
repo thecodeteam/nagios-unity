@@ -8,6 +8,6 @@ from nagiosunity.commands import fc_port
 from nagiosunity.commands import io_module
 
 
-COMMANDS = [battery.Battery, disk.Disk]
+COMMANDS = [battery.Battery, disk.Disk, ethernet_port.EthernetPort]
 
 commands_dict = {cmd.name: cmd for cmd in COMMANDS}

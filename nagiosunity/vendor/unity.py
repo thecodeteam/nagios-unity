@@ -26,14 +26,7 @@ def get_all_status(unity_objects):
             critical.append((status, obj.id))
         else:
             unknown.append((status, obj.id))
-    if unknown:
-        raise nagiosplugin.CheckError("%d disk(s) are in Unknown/Unrecoverable state." % len(unknown))
-    if critical:
-        return 2, critical
-    if warning:
-        return 1, warning
-    else:
-        return 0, ok
+    return ok, warning, critical, unknown
 
 
 def get_single_status(obj):

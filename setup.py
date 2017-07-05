@@ -33,6 +33,9 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Topic :: Software Development :: Libraries'
     ],
+
+    install_requires=open('requirements.txt').readlines(),
+    tests_require=open('test-requirements.txt').readlines(),
     entry_points={
         'console_scripts': [
             'nagios-unity=nagiosunity.cli.client:main',
