@@ -34,7 +34,11 @@ from docopt import docopt
 import nagiosunity
 from nagiosunity.cli import opt
 from nagiosunity import commands
-urllib3 = __import__('urllib3')
+
+try:
+    urllib3 = __import__('urllib3')
+except ImportError:
+    urllib3 = None
 if urllib3:
     urllib3.disable_warnings()
 
@@ -46,9 +50,7 @@ def main():
 
     if cli_opt.command in commands.commands_dict.keys():
         command = commands.commands_dict.get(cli_opt.command)
-        if hasattr(command, 'get_check_instance'):
-            check = command.get_check_instance(cli_opt)
-        else:
-            return command(cli_opt).check()
+        return command(cli_opt).check()
     else:
-        raise ValueError("Invalid monitoring object specified: %s" % cli_opt.command)
+        raise ValueError("Invalid object specified: %s, "
+                         "use 'nagios-unity --help' for details." % cli_opt.command)

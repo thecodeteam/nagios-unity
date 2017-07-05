@@ -1,2 +1,4 @@
+bitmath>=1.3.0 # MIT
+storops>=0.4.15 # Apache
+urllib3>=1.21.1 # MIT
 docopt>=0.6.2 # MIT
-nagiosplugin>=1.2.4 # ZPL 2.1

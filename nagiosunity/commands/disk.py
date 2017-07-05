@@ -1,6 +1,7 @@
 import logging
 import nagiosplugin
-from nagiosunity.vendor import unity
+from nagiosunity.lib import unity
+from nagiosunity.lib import utils
 
 _log = logging.getLogger(__name__)
 
@@ -21,7 +22,7 @@ class Disk(unity.UnityWrapper,
 
     def probe(self):
         self._disks = self.disks
-        all_status = unity.get_all_status(self.disks)
+        all_status = utils.get_all_status(self.disks)
         if all_status[0] == 0:
             self.ok = all_status[1]
 

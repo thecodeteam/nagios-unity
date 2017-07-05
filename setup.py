@@ -3,13 +3,23 @@
 
 from setuptools import setup, find_packages
 
+
+def read_requires(filename):
+    with open(filename, "r") as f:
+        return f.read().splitlines()
+
+
+def read_raw(filename):
+    with open(filename, "r") as f:
+        return f.read()
+
 setup(
     name='nagios-unity',
     version=__import__('nagiosunity').__version__,
     description=(
         'Unity plugin for Nagios.'
     ),
-    long_description=open('README.rst').read(),
+    long_description=read_raw('README.rst'),
     author='Peter Wang',
     author_email='peter.wang13@dell.com',
     maintainer='Peter Wang',
@@ -34,8 +44,8 @@ setup(
         'Topic :: Software Development :: Libraries'
     ],
 
-    install_requires=open('requirements.txt').readlines(),
-    tests_require=open('test-requirements.txt').readlines(),
+    install_requires=read_requires('requirements.txt'),
+    tests_require=read_requires('test-requirements.txt'),
     entry_points={
         'console_scripts': [
             'nagios-unity=nagiosunity.cli.client:main',

@@ -1,6 +1,6 @@
 import logging
 import nagiosplugin
-from nagiosunity.vendor import unity
+from nagiosunity.lib import unity
 
 _log = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ class Battery(unity.UnityWrapper,
 
     def probe(self):
         self._batteries = self.batteries
-        all_status = unity.get_all_status(self.batteries)
+        all_status = utils.get_all_status(self.batteries)
         if all_status[0] == 0:
             self.ok = all_status[1]
 
