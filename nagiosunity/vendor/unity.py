@@ -1,6 +1,8 @@
 import nagiosplugin
 import storops
 
+status_dict = {0: "OK", 1: "WARNING", 2: "CRITICAL", 3: "UNKNOWN"}
+
 
 class UnityWrapper(object):
     def __init__(self, options):
@@ -43,3 +45,13 @@ def get_single_status(obj):
         # Unknown status
         return 3
     raise nagiosplugin.CheckError("The disk is in Unknown/Unrecoverable state.")
+
+
+def get_status_mark(obj, mark):
+    status = status_dict.get(mark)
+    return "{} {}: ".format(obj, status)
+
+
+def format_enum(enum):
+    if enum:
+        return enum.description

@@ -31,13 +31,14 @@ Examples:
 
 from docopt import docopt
 
-import nagiosplugin
 import nagiosunity
 from nagiosunity.cli import opt
 from nagiosunity import commands
+urllib3 = __import__('urllib3')
+if urllib3:
+    urllib3.disable_warnings()
 
 
-@nagiosplugin.guarded
 def main():
     """Main cli entry point for distributing cli commands."""
     options = docopt(__doc__, version=nagiosunity.__version__)
@@ -48,11 +49,6 @@ def main():
         if hasattr(command, 'get_check_instance'):
             check = command.get_check_instance(cli_opt)
         else:
-            check = nagiosplugin.Check(
-                command(cli_opt),
-                nagiosplugin.ScalarContext(
-                    cli_opt.command, warning="@0.1:1", critical="@1.1:2")
-            )
-        check.main(verbose=cli_opt.verbose)
+            return command(cli_opt).check()
     else:
         raise ValueError("Invalid monitoring object specified: %s" % cli_opt.command)
