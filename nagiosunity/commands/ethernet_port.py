@@ -19,7 +19,7 @@ class EthernetPort(unity.UnityWrapper):
         return self._ethernet_ports if self._ethernet_ports else self.unity.get_ethernet_port()
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.ethernet_ports)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.ethernet_ports)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("ETHERNET_PORT", code)
@@ -27,6 +27,8 @@ class EthernetPort(unity.UnityWrapper):
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
         print(status_mark + first_line + "|")
+        # Failed details
+        utils.print_if_failure(all_status[code], self.ethernet_ports)
         # Performance detail
         for port in self.ethernet_ports:
             print("{}: Link status={}, Requested Speed={}, Current Speed={}".format(
@@ -34,5 +36,4 @@ class EthernetPort(unity.UnityWrapper):
                 utils.format_enum(port.requested_speed),
                 utils.format_enum(port.speed)
             ))
-        # Warning/critical details
         return code

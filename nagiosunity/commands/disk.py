@@ -1,13 +1,12 @@
+from __future__ import division
 import logging
-import nagiosplugin
 from nagiosunity.lib import unity
 from nagiosunity.lib import utils
 
 _log = logging.getLogger(__name__)
 
 
-class Disk(unity.UnityWrapper,
-           nagiosplugin.Resource):
+class Disk(unity.UnityWrapper):
     name = 'disk'
 
     def __init__(self, options, **kwargs):
@@ -15,47 +14,41 @@ class Disk(unity.UnityWrapper,
         self.options = options
         self.kwargs = kwargs
         self._disks = None
+        self._disk_groups = None
 
     @property
     def disks(self):
         return self._disks if self._disks else self.unity.get_disk()
 
-    def probe(self):
-        self._disks = self.disks
-        all_status = utils.get_all_status(self.disks)
-        if all_status[0] == 0:
-            self.ok = all_status[1]
+    @property
+    def disk_groups(self):
+        return self._disk_groups if self._disk_groups else self.unity.get_disk_group()
 
-        if all_status[0] == 1:
-            self.warning = all_status[1]
+    def check(self):
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.disks)
+        code = max(ok+ warning+ critical+ unknown, key=lambda i: i[0])
+        code = code[0]
+        status_mark = utils.get_status_mark("DISK", code)
+        first_line = "Total Disks #{}, Failed Disks: {}, Hot spares: {}, " \
+                     "Unbounded: {}".format(
+            len(ok +warning+ critical+ unknown),
+            [c[1] for c in critical], self.get_hot_spares(), self.get_unbounded_disks())
+        # Status line
+        print(status_mark + first_line + "|")
 
-        if all_status[0] == 2:
-            self.critical = all_status[1]
+        # Failed details
+        utils.print_if_failure(all_status[code], self.disks)
+        return code
 
-        return [nagiosplugin.Metric('disk [%s]' % s[1], s[0], context='disk') for s in all_status[1]]
+    def get_unbounded_disks(self):
+        total = 0
+        for group in self.disk_groups:
+            total += group.unconfigured_disks
+        return total
 
-    @staticmethod
-    def get_check_instance(options, **kwargs):
-        check = nagiosplugin.Check(
-            Disk(options),
-            nagiosplugin.ScalarContext(
-                options.command, warning="@1:1", critical="@2:2"),
-            DiskSummary()
-        )
-        return check
-
-
-class DiskSummary(nagiosplugin.Summary):
-    def ok(self, results):
-        return "All disks are in OK state."
-
-    def warning(self, results):
-        return "%d disks are in Warning state." % len(results['disk'].resource.warning)
-
-    def critical(self, results):
-        return "%d disks are in Critical state." % len(results['disk'].resource.critical)
-
-    def verbose(self, results):
-        super(DiskSummary, self).verbose(results)
-        if results:
-            return "Total: %d disks, " % len(results[0].resource.disks)
+    def get_hot_spares(self):
+        total = 0
+        for group in self.disk_groups:
+            if group.unconfigured_disks != group.total_disks:
+                total += group.min_hot_spare_candidates
+        return total

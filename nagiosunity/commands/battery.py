@@ -1,12 +1,12 @@
+from __future__ import division
 import logging
-import nagiosplugin
 from nagiosunity.lib import unity
+from nagiosunity.lib import utils
 
 _log = logging.getLogger(__name__)
 
 
-class Battery(unity.UnityWrapper,
-              nagiosplugin.Resource):
+class Battery(unity.UnityWrapper):
     name = 'battery'
 
     def __init__(self, options, **kwargs):
@@ -19,42 +19,16 @@ class Battery(unity.UnityWrapper,
     def batteries(self):
         return self._batteries if self._batteries else self.unity.get_battery()
 
-    def probe(self):
-        self._batteries = self.batteries
-        all_status = utils.get_all_status(self.batteries)
-        if all_status[0] == 0:
-            self.ok = all_status[1]
+    def check(self):
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.batteries)
+        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = code[0]
+        status_mark = utils.get_status_mark("BATTERY", code)
+        first_line = "Total Batteries #{}, Failed batteries: {}".format(
+            len(ok + warning + critical + unknown), [c[1] for c in critical])
+        # Status line
+        print(status_mark + first_line + "|")
 
-        if all_status[0] == 1:
-            self.warning = all_status[1]
-
-        if all_status[0] == 2:
-            self.critical = all_status[1]
-
-        return [nagiosplugin.Metric('battery [%s]' % s[1], s[0], context='battery') for s in all_status[1]]
-
-    @staticmethod
-    def get_check_instance(options, **kwargs):
-        check = nagiosplugin.Check(
-            Battery(options),
-            nagiosplugin.ScalarContext(
-                options.command, warning="@1:1", critical="@2:2"),
-            BatterySummary()
-        )
-        return check
-
-
-class BatterySummary(nagiosplugin.Summary):
-    def ok(self, results):
-        return "All batteries are in OK state."
-
-    def warning(self, results):
-        return "%d batteries are in Warning state." % len(results['battery'].resource.warning)
-
-    def critical(self, results):
-        return "%d batteries are in Critical state." % len(results['battery'].resource.critical)
-
-    def verbose(self, results):
-        super(BatterySummary, self).verbose(results)
-        if results:
-            return "Total: %d batteries, " % len(results[0].resource.batteries)
+        # Failed details
+        utils.print_if_failure(all_status[code], self.batteries)
+        return code

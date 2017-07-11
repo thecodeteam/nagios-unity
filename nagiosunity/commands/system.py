@@ -27,6 +27,7 @@ class System(unity.UnityWrapper):
             self.unity.name, self.unity.model, self.unity.system_version)
         # Status line
         print(status_mark + first_line + "|")
+
         # Performance detail
         for license in self.licenses:
             print("{}: Status={}, Reason={}".format(

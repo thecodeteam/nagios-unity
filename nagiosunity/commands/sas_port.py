@@ -21,14 +21,17 @@ class SasPort(unity.UnityWrapper):
         return self._sas_ports
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.sas_ports)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.sas_ports)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
-        status_mark = utils.get_status_mark("FC_PORT", code)
-        first_line = "Total fc ports #{}, Failed ports(ID): {}".format(
+        status_mark = utils.get_status_mark("SAS_PORT", code)
+        first_line = "Total SAS ports #{}, Failed ports(ID): {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
         print(status_mark + first_line + "|")
+
+        # Failed details
+        utils.print_if_failure(all_status[code], self.sas_ports)
         # Performance detail
         for port in self.sas_ports:
             print("{}: Link status={}, Current Speed={}".format(

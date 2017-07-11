@@ -1,6 +1,6 @@
-from nagiosunity.commands import battery, sas_port, system, sp, pool, lcc
+from nagiosunity.commands import battery, sas_port, system, sp, pool, lcc, \
+    memory_module, power_supply, ssc, ssd, lun
 from nagiosunity.commands import disk
-from nagiosunity.commands import dpe
 from nagiosunity.commands import dae
 from nagiosunity.commands import ethernet_port
 from nagiosunity.commands import fan
@@ -17,6 +17,13 @@ COMMANDS = [battery.Battery,
             pool.Pool,
             dae.Dae,
             io_module.IoModule,
-            lcc.Lcc]
+            lcc.Lcc,
+            memory_module.MemoryModule,
+            fan.Fan,
+            power_supply.PowerSupply,
+            battery.Battery,
+            ssc.Ssc,
+            ssd.Ssd,
+            lun.Lun]
 
 commands_dict = {cmd.name: cmd for cmd in COMMANDS}

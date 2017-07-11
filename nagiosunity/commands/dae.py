@@ -19,14 +19,17 @@ class Dae(unity.UnityWrapper):
         return self._dae if self._dae else (self.unity.get_dae() + self.unity.get_dpe())
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.dae)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.dae)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
-        status_mark = utils.get_status_mark("SP", code)
-        first_line = "Total DAEs #{}, Failed DAE(ID): {}".format(
+        status_mark = utils.get_status_mark("DAE/DPE", code)
+        first_line = "Total DAE/DPEs #{}, Failed DAE/DPE(ID): {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
         print(status_mark + first_line + "|")
+
+        # Failed details
+        utils.print_if_failure(all_status[code], self.batteries)
         # Performance detail
         for d in self.dae:
             print("{}: Power(curr/avg/max)={}/{}/{} watts, "

@@ -19,7 +19,7 @@ class FcPort(unity.UnityWrapper):
         return self._fc_ports if self._fc_ports else self.unity.get_fc_port()
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.fc_ports)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.fc_ports)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("FC_PORT", code)
@@ -27,6 +27,9 @@ class FcPort(unity.UnityWrapper):
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
         print(status_mark + first_line + "|")
+
+        # Failed details
+        utils.print_if_failure(all_status[code], self.fc_ports)
         # Performance detail
         for port in self.fc_ports:
             print("{}: Link status={}, Requested Speed={}, Current Speed={}".format(

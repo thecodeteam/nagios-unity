@@ -20,7 +20,7 @@ class IoModule(unity.UnityWrapper):
         return self._modules if self._modules else self.unity.get_io_module()
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.io_modules)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.io_modules)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("IO MODULE", code)
@@ -28,4 +28,7 @@ class IoModule(unity.UnityWrapper):
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
         print(status_mark + first_line + "|")
+
+        # Failed details
+        utils.print_if_failure(all_status[code], self.io_modules)
         return code

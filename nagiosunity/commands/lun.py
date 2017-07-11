@@ -7,20 +7,20 @@ _log = logging.getLogger(__name__)
 
 
 class Lun(unity.UnityWrapper):
-    name = 'pool'
+    name = 'lun'
 
     def __init__(self, options, **kwargs):
-        super(Pool, self).__init__(options)
+        super(Lun, self).__init__(options)
         self.options = options
         self.kwargs = kwargs
         self._luns = None
 
     @property
-    def pools(self):
+    def luns(self):
         return self._luns if self._luns else self.unity.get_lun()
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.pools)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.luns)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("LUN", code)
@@ -30,5 +30,6 @@ class Lun(unity.UnityWrapper):
         print(status_mark + first_line + "|")
 
         # Failed details
-
+        utils.print_if_failure(all_status[code], self.luns)
         return code
+

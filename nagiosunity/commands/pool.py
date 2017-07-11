@@ -20,7 +20,7 @@ class Pool(unity.UnityWrapper):
         return self._pools if self._pools else self.unity.get_pool()
 
     def check(self):
-        ok, warning, critical, unknown = utils.get_all_status(self.pools)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(self.pools)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("POOL", code)
@@ -28,6 +28,9 @@ class Pool(unity.UnityWrapper):
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
         print(status_mark + first_line + "|")
+
+        # Failed details
+        utils.print_if_failure(all_status[code], self.pools)
         # Performance detail
         for p in self.pools:
             print("{}: Total Cap={} GiB, Available Cap={} GiB({:.2f}%) ".format(
