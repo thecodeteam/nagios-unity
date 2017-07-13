@@ -3,8 +3,9 @@ nagios-unity
 
 Nagios plugin for monitoring Unity system
 
-`nagios-unity` is built on top of `storops`, which interacts with Unity storage via RESTful API. `nagios-unity` provides
-a easy-to-use command line interface for invocation of nagios servers.
+``nagios-unity`` is built on top of ``storops``, which interacts with Unity storage via RESTful API. ``nagios-unity`` provides
+a easy-to-use command line interface for invocation of nagios servers. ``nagios-unity`` follows the output rules defined
+by `Print only one line of text <https://nagios-plugins.org/doc/guidelines.html#AEN33>`_
 
 License
 -------
@@ -18,7 +19,7 @@ Installation
 From Pypi
 ^^^^^^^^^
 
-The `nagios-unity` can be install via pypi (only applicable after published)
+The ``nagios-unity`` can be install via pypi.
 
 .. code-block:: bash
 
@@ -27,26 +28,66 @@ The `nagios-unity` can be install via pypi (only applicable after published)
 From source
 ^^^^^^^^^^^
 
-Alternatively, clone this repo and:
+Alternatively, clone this repo via git and:
 
 .. code-block:: bash
 
     $ cd nagios-unity
     $ sudo python setup.py install
 
-Once install a `nagios-unity` command will be available for use.
+Once installed, a ``nagios-unity``(on *nux) or ``nagios-unity.exe`` (on Windows) command will be available for use.
+
+Command line usage
+------------------
+
+User can invoke the command line ``nagios-unity`` in bash or CMD/PowerShell. To get the help, type ``nagios-unity --help``.
+
+Here is the example:
+
+.. code-block:: bash
+
+    $ nagios-unity --help
+    Unity plugin for Nagios.
+
+    Usage:
+        nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> <OBJECT> [-w <warning>] [-c <critical>]
+        nagios-unity -h | --help
+        nagios-unity --version
+
+    Arguments:
+        OBJECT  One of below values:
+            battery, dae, disk, dpe,
+            ethernet_port fan, fc_port,
+            io_module, lcc, memory_module,
+            pool, power_supply, sas_port,
+            sp, ssc, ssd, system
+
+    Options:
+        -h --help                         Show this screen.
+        -V --version                      Show version.
+        -H --host                         Unity IP address.
+        -u --username                     Unity User login.
+        -p --password                     Unity password.
+        -w --warning                      warning threshold.
+        -c --critical                     critical threshold.
+        -v --verbose                      show verbose logs.
+
+    Examples:
+      nagios-unity -H 192.168.1.100 -u admin -p password ssc
+
 
 
 Configuration
 -------------
 
-::
+.. caution::
 
     Before proceeding, make sure the nagios and its components are corrected configured.
+    It is also suggested to try out the ``nagios-unity`` command line.
 
 
 
-- Create a template `storage-array` in `templates.cfg`.
+- Create a template ``storage-array`` in ``templates.cfg``.
 
 .. code-block:: ini
 
@@ -68,14 +109,14 @@ Configuration
         }
 
 
-- Create a dedicated `storage.cfg` for storing all storage arrays.
+- Create a dedicated ``storage.cfg`` for storing all storage arrays.
 
 .. code-block:: ini
 
     $ touch storage.cfg
 
 
-- Add groups for grouping all storage devices in `storage.cfg`
+- Add groups for grouping all storage devices in ``storage.cfg``
 
 .. code-block:: ini
 
@@ -138,6 +179,13 @@ Note: please replace above credentials for the Unity array.
 .. code-block:: ini
 
     $ sudo service nagios restart
+
+
+Contributions
+-------------
+
+Simply fork this repo and send PR for your code change(also tests to cover your change),
+remember to give a title and description of your PR. We are willing to enhance this project with you :).
 
 
 
