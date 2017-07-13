@@ -1,3 +1,19 @@
+# coding=utf-8
+# Copyright (c) 2017 Dell Inc. or its subsidiaries.
+# All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you may
+# not use this file except in compliance with the License. You may obtain
+# a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+
 from __future__ import division
 import logging
 from nagiosunity.lib import unity
@@ -17,10 +33,12 @@ class PowerSupply(unity.UnityWrapper):
 
     @property
     def power_supplies(self):
-        return self._supplies if self._supplies else self.unity.get_power_supply()
+        return (self._supplies if self._supplies
+                else self.unity.get_power_supply())
 
     def check(self):
-        all_status = ok, warning, critical, unknown = utils.get_all_status(self.power_supplies)
+        all_status = ok, warning, critical, unknown = utils.get_all_status(
+            self.power_supplies)
         code = max(ok + warning + critical + unknown, key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("POWER SUPPLY", code)
