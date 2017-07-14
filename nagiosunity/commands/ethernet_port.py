@@ -44,15 +44,14 @@ class EthernetPort(unity.UnityWrapper):
         first_line = "Total ethernet ports #{}, Failed ports(ID): {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
         # Failed details
         utils.print_if_failure(all_status[code], self.ethernet_ports)
         # Performance detail
         for port in self.ethernet_ports:
             print("{}: Link status={}, Requested Speed={}, "
                   "Current Speed={}".format(
-                port.name, "UP" if port.is_link_up else "DOWN",
-                utils.format_enum(port.requested_speed),
-                utils.format_enum(port.speed)
-            ))
+                    port.name, "UP" if port.is_link_up else "DOWN",
+                    utils.format_enum(port.requested_speed),
+                    utils.format_enum(port.speed)))
         return code

@@ -42,17 +42,18 @@ class System(unity.UnityWrapper):
         first_line = "Name: {}, MODEL: {}, VERSION: {}".format(
             self.unity.name, self.unity.model, self.unity.system_version)
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
 
         # Performance detail
         for license in self.licenses:
             print("{}: Status={}, Reason={}".format(
-                license.name, self.get_license_status(license),
+                license.name, self.__class__.get_license_status(license),
                 (None if not license.feature.reason
                  else license.feature.reason.description)
             ))
         return code
 
-    def get_license_status(self, license):
+    @staticmethod
+    def get_license_status(license):
         if license.feature:
             return license.feature.state.name

@@ -67,11 +67,12 @@ def print_if_failure(status_code, items):
     # Avoid printing the error if status code contains (0, xx)
     if not all(map(lambda x: x[0], status_code)):
         return
-    ids = map(lambda x: x[1], status_code)
-    failed_items = filter(lambda x: x.id in ids, items)
+    ids = [x[1] for x in status_code]
+    failed_items = [item for item in items if item.id in ids]
     for failed in failed_items:
         print("{}: Reason={}".format(failed.id, ";".join(
             failed.health.descriptions)))
+    return len(failed_items)
 
 
 def format_enum(enum):

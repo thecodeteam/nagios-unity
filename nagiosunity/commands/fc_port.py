@@ -43,17 +43,19 @@ class FcPort(unity.UnityWrapper):
         first_line = "Total fc ports #{}, Failed ports(ID): {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
 
         # Failed details
         utils.print_if_failure(all_status[code], self.fc_ports)
         # Performance detail
         for port in self.fc_ports:
-            print("{}: Link status={}, Requested Speed={}, Current Speed={}".format(
-                port.name, self.get_link_status(port),
-                utils.format_enum(port.requested_speed),
-                utils.format_enum(port.current_speed)
-            ))
+            print(
+                "{}: Link status={}, Requested Speed={}, "
+                "Current Speed={}".format(
+                    port.name, self.get_link_status(port),
+                    utils.format_enum(port.requested_speed),
+                    utils.format_enum(port.current_speed)
+                ))
         return code
 
     def get_link_status(self, port):

@@ -43,17 +43,16 @@ class StorageProcessor(unity.UnityWrapper):
         first_line = "Total SPs #{}, Failed SP(ID): {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
         # Failed details
         utils.print_if_failure(all_status[code], self.sp)
         # Performance detail
         for p in self.sp:
             print("{}: Rescue Mode={}, Bios Firmware Revision={}, "
                   "Post Firmware Revision={}, Needs Replacement={}".format(
-                p.name,
-                p.is_rescue_mode,
-                p.bios_firmware_revision,
-                p.post_firmware_revision,
-                p.needs_replacement
-            ))
+                    p.name,
+                    p.is_rescue_mode,
+                    p.bios_firmware_revision,
+                    p.post_firmware_revision,
+                    p.needs_replacement))
         return code

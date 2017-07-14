@@ -44,7 +44,7 @@ class Pool(unity.UnityWrapper):
         first_line = "Total POOLs #{}, Failed POOLs: {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
 
         # Failed details
         utils.print_if_failure(all_status[code], self.pools)
@@ -52,9 +52,8 @@ class Pool(unity.UnityWrapper):
         for p in self.pools:
             print("{}: Total Cap={} GiB, "
                   "Available Cap={} GiB({:.2f}%) ".format(
-                p.name,
-                utils.byte_to_GiB(p.size_total),
-                utils.byte_to_GiB(p.size_free),
-                (p.size_free / p.size_total) * 100
-            ))
+                    p.name,
+                    utils.byte_to_GiB(p.size_total),
+                    utils.byte_to_GiB(p.size_free),
+                    (p.size_free / p.size_total) * 100))
         return code

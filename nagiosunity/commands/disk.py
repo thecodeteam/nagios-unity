@@ -50,11 +50,11 @@ class Disk(unity.UnityWrapper):
         status_mark = utils.get_status_mark("DISK", code)
         first_line = "Total Disks #{}, Failed Disks: {}, Hot spares: {}, " \
                      "Unbounded: {}".format(
-            len(ok + warning + critical + unknown),
-            [c[1] for c in critical], self.get_hot_spares(),
-            self.get_unbounded_disks())
+                        len(ok + warning + critical + unknown),
+                        [c[1] for c in critical], self.get_hot_spares(),
+                        self.get_unbounded_disks())
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
 
         # Failed details
         utils.print_if_failure(all_status[code], self.disks)

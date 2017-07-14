@@ -14,10 +14,12 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from nagiosunity.lib import utils
+import unittest
 
 import mock
-import unittest
+
+from nagiosunity.lib import utils
+from nagiosunity.tests.lib import fake
 
 
 class UtilsTest(unittest.TestCase):
@@ -49,13 +51,24 @@ class UtilsTest(unittest.TestCase):
         obj.health.value.value = (0, "Unknown")
         self.assertEqual(3, utils.get_single_status(obj))
 
+    def test_get_single_status_error(self):
+        obj = mock.Mock()
+        obj.health.value.value = (2, "Unknown")
+        self.assertRaises(ValueError, utils.get_single_status, obj)
+
     def test_get_status_mark(self):
         status = utils.get_status_mark("DISK", 0)
         self.assertEqual("DISK OK: ", status)
 
     def test_print_if_failure(self):
-        items = [mock.Mock(id="sv_1", descriptions=['hello', 'again']),
-                 mock.Mock(id='sv_2'),
-                 mock.Mock(id='sv_3', descriptions=['hello3', 'again3'])]
+        items = [fake.FakeUnityObject(_id='sv_2', _code=1),
+                 fake.FakeUnityObject(_id='sv_3', _code=1)]
         status_code = [(1, 'sv_1'), (1, 'sv_3')]
-        utils.print_if_failure(status_code, items)
+        r = utils.print_if_failure(status_code, items)
+        self.assertEqual(1, r)
+
+    def test_print_enum(self):
+        e = mock.Mock()
+        e.description = "hello"
+        r = utils.format_enum(e)
+        self.assertEqual(r, "hello")

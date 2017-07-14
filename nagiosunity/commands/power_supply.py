@@ -45,7 +45,7 @@ class PowerSupply(unity.UnityWrapper):
         first_line = "Total power supplies #{}, Failed supplies: {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
 
         # Failed details
         utils.print_if_failure(all_status[code], self.power_supplies)

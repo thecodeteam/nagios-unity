@@ -56,4 +56,3 @@ class Options(object):
     @property
     def password(self):
         return self.data.get('<PASSWORD>', '')
-

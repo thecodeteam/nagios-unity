@@ -18,7 +18,8 @@
 Unity plugin for Nagios.
 
 Usage:
-    nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> <OBJECT> [-w <warning>] [-c <critical>]
+    nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> <OBJECT> \
+[-w <warning>] [-c <critical>]
     nagios-unity -h | --help
     nagios-unity --version
 

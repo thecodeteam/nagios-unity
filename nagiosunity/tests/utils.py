@@ -14,11 +14,22 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-from nagiosunity.commands import battery
+import mock
+import functools
 
-import unittest
+from nagiosunity.tests.lib import fake
 
 
-class BatteryTest(unittest.TestCase):
-    def test_check(self):
-        pass
+def patch_unity(test_func):
+    @functools.wraps(test_func)
+    def patched(*args, **kwargs):
+        with mock.patch(target='nagiosunity.lib.unity.UnityWrapper.unity',
+                        new=fake.FakeUnity()):
+            print(
+                "\nOUTPUT({}.{})=======>".format(test_func.__name__, args[1]))
+
+            test_func(*args, **kwargs)
+
+            print("END({}.{})<==========".format(test_func.__name__, args[1]))
+
+    return patched

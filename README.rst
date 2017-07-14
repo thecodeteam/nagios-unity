@@ -35,7 +35,7 @@ Alternatively, clone this repo via git and:
     $ cd nagios-unity
     $ sudo python setup.py install
 
-Once installed, a ``nagios-unity``(on *nux) or ``nagios-unity.exe`` (on Windows) command will be available for use.
+Once installed, a ``nagios-unity`` (on *nux) or ``nagios-unity.exe`` (on Windows) command will be available for use.
 
 Command line usage
 ------------------

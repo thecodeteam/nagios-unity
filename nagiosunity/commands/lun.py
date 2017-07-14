@@ -44,9 +44,8 @@ class Lun(unity.UnityWrapper):
         first_line = "Total LUNs #{}, Failed LUNs: {}".format(
             len(ok + warning + critical + unknown), [c[1] for c in critical])
         # Status line
-        print(status_mark + first_line + "|")
+        print(status_mark + first_line + " | ")
 
         # Failed details
         utils.print_if_failure(all_status[code], self.luns)
         return code
-
