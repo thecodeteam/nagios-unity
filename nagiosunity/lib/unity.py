@@ -25,6 +25,7 @@ class UnityWrapper(object):
     @property
     def unity(self):
         return storops.UnitySystem(
-            self.options.host,
-            self.options.username,
-            self.options.password)
+            host=self.options.host,
+            username=self.options.username,
+            password=self.options.password,
+            verify=self.options.cacert)

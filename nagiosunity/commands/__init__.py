@@ -15,7 +15,7 @@
 # under the License.
 
 from nagiosunity.commands import battery, sas_port, system, sp, pool, lcc, \
-    memory_module, power_supply, ssc, ssd, lun
+    memory_module, power_supply, ssc, ssd, lun, dpe
 from nagiosunity.commands import disk
 from nagiosunity.commands import dae
 from nagiosunity.commands import ethernet_port
@@ -32,6 +32,7 @@ COMMANDS = [battery.Battery,
             sp.StorageProcessor,
             pool.Pool,
             dae.Dae,
+            dpe.Dpe,
             io_module.IoModule,
             lcc.Lcc,
             memory_module.MemoryModule,

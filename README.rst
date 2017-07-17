@@ -75,6 +75,26 @@ Here is the example:
     Examples:
       nagios-unity -H 192.168.1.100 -u admin -p password ssc
 
+Available monitoring commands
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**battery**
+**dae**
+**disk**
+**dpe**
+**ethernet_port**
+**fan**
+**fc_port**
+**io_module**
+**lcc**
+**memory_module**
+**pool**
+**power_supply**
+**sas_port**
+**sp**
+**ssc**
+**ssd**
+**system**
 
 
 Configuration
@@ -93,20 +113,24 @@ Configuration
 
     # Define a template for switches that we can reuse
     define host{
-        name			storage-array	; The name of this host template
-        use			generic-host	; Inherit default values from the generic-host template
-        hostgroups		storage-arrays; Host groups that Windows servers should be a member of
-        check_period		24x7		; By default, switches are monitored round the clock
-        check_interval		5		; Switches are checked every 5 minutes
-        retry_interval		1		; Schedule host check retries at 1 minute intervals
-        max_check_attempts	10		; Check each switch 10 times (max)
-        check_command		check-host-alive	; Default command to check if routers are "alive"
-        notification_period	24x7		; Send notifications at any time
-        notification_interval	30		; Resend notifications every 30 minutes
-        notification_options	d,r		; Only send notifications for specific host states
-        contact_groups		admins		; Notifications get sent to the admins by default
-        register		0		; DONT REGISTER THIS - ITS JUST A TEMPLATE
-        }
+            name                    storage-array   ; The name of this host template
+            use                     generic-host    ; Inherit default values from the generic-host template
+            hostgroups              storage-arrays; Host groups that Windows servers should be a member of
+            check_period            24x7            ; By default, switches are monitored round the clock
+            check_interval          5               ; Switches are checked every 5 minutes
+            retry_interval          1               ; Schedule host check retries at 1 minute intervals
+            max_check_attempts      10              ; Check each switch 10 times (max)
+            check_command           check-host-alive        ; Default command to check if routers are "alive"
+            notification_period     24x7            ; Send notifications at any time
+            notification_interval   30              ; Resend notifications every 30 minutes
+            notification_options    d,r             ; Only send notifications for specific host states
+            contact_groups          admins          ; Notifications get sent to the admins by default
+            register                0               ; DONT REGISTER THIS - ITS JUST A TEMPLATE
+            _user_name              None            ; Customer variable for Unity user name
+            _password               None            ; Customer variable for Unity password
+            _cert_file              None            ; Customer variable for Unity ssl certificate
+            }
+
 
 
 - Create a dedicated ``storage.cfg`` for storing all storage arrays.
@@ -136,7 +160,7 @@ Configuration
         address»    10.245.101.35   ; IP address of the host
     }
 
-- Add command for nagios use.
+- Add command for nagios use in ``commands.cfg``.
 
 .. code-block:: ini
 
@@ -144,10 +168,10 @@ Configuration
 
     define command{
         command_name    nagios-unity
-        command_line    /usr/local/bin/nagios-unity -H <Management IP> -u <User> -p <Password> -v $ARG1$
-    }
+        command_line    /usr/local/bin/nagios-unity -H $HOSTADDRESS$ -u $_HOSTUSER_NAME$ -p $_HOSTPASSWORD$ --cacert $_HOSTCACERT $ARG1$
+        }
 
-Note: please replace above credentials for the Unity array.
+Note: ``_HOST`` prefix is prepended by nagios, see `custom object vars <https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/3/en/customobjectvars.html>`_.
 
 - Add services for managed arrays.
 

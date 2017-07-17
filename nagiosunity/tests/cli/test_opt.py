@@ -27,15 +27,21 @@ class OptionTest(unittest.TestCase):
             '<PASSWORD>': 'password',
             '<OBJECT>': 'disk',
             '--verbose': True,
-            '<verbose>': True,
-            '--warning': True,
-            '<warning>': 123,
-            '--critical': True,
-            '<critical>': 124})
+            '--cacert': True,
+            '<CACERT>': '/tmp/cafile'})
         self.assertEqual("192.168.1.30", my_opt.host)
         self.assertEqual('admin', my_opt.username)
         self.assertEqual('password', my_opt.password)
         self.assertEqual("disk", my_opt.command)
         self.assertEqual(True, my_opt.verbose)
-        self.assertEqual(123, my_opt.warning)
-        self.assertEqual(124, my_opt.critical)
+        self.assertEqual('/tmp/cafile', my_opt.cacert)
+
+    def test_option_false(self):
+        my_opt = opt.Options({
+            '<HOST>': '192.168.1.30',
+            '<USERNAME>': 'admin',
+            '<PASSWORD>': 'password',
+            '<OBJECT>': 'disk',
+            '--verbose': True,
+            '--cacert': False})
+        self.assertFalse(my_opt.cacert)

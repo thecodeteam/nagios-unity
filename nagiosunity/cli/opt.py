@@ -25,14 +25,11 @@ class Options(object):
         self.data = options
 
     @property
-    def warning(self):
-        if self.data.get('--warning'):
-            return self.data.get('<warning>')
-
-    @property
-    def critical(self):
-        if self.data.get('--critical'):
-            return self.data.get('<critical>')
+    def cacert(self):
+        if self.data.get('--cacert') or self.data.get('-C'):
+            return self.data.get('<CACERT>')
+        # Returns False to avoid ssl check
+        return False
 
     @property
     def verbose(self):

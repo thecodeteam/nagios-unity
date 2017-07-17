@@ -19,7 +19,7 @@ Unity plugin for Nagios.
 
 Usage:
     nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> <OBJECT> \
-[-w <warning>] [-c <critical>]
+[--cacert <CACERT>]
     nagios-unity -h | --help
     nagios-unity --version
 
@@ -37,8 +37,7 @@ Options:
     -H --host                         Unity IP address.
     -u --username                     Unity User login.
     -p --password                     Unity password.
-    -w --warning                      warning threshold.
-    -c --critical                     critical threshold.
+    -C --cacert                       Unity CA certificates.
     -v --verbose                      show verbose logs.
 
 Examples:
