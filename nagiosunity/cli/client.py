@@ -18,8 +18,7 @@
 Unity plugin for Nagios.
 
 Usage:
-    nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> <OBJECT> \
-[--cacert <CACERT>]
+    nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> [-C <CACERT>] <OBJECT>
     nagios-unity -h | --help
     nagios-unity --version
 

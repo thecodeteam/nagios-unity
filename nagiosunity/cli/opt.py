@@ -26,7 +26,7 @@ class Options(object):
 
     @property
     def cacert(self):
-        if self.data.get('--cacert') or self.data.get('-C'):
+        if self.data.get('--cacert'):
             return self.data.get('<CACERT>')
         # Returns False to avoid ssl check
         return False
