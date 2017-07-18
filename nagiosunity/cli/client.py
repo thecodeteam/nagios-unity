@@ -18,7 +18,8 @@
 Unity plugin for Nagios.
 
 Usage:
-    nagios-unity [-v] -H <HOST> -u <USERNAME> -p <PASSWORD> [-C <CACERT>] <OBJECT>
+    nagios-unity -H <HOST> -u <USERNAME> -p <PASSWORD> [--cacert <CACERT>]  \
+<OBJECT>
     nagios-unity -h | --help
     nagios-unity --version
 
@@ -33,10 +34,10 @@ Arguments:
 Options:
     -h --help                         Show this screen.
     -V --version                      Show version.
-    -H --host                         Unity IP address.
-    -u --username                     Unity User login.
-    -p --password                     Unity password.
-    -C --cacert                       Unity CA certificates.
+    -C --cacert <CACERT>              Unity CA certificates.
+    -H --host <HOST>                  Unity IP address.
+    -u --username <USERNAME>          Unity User login.
+    -p --password <PASSWORD>          Unity password.
     -v --verbose                      show verbose logs.
 
 Examples:

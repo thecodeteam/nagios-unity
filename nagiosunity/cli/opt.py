@@ -26,8 +26,9 @@ class Options(object):
 
     @property
     def cacert(self):
-        if self.data.get('--cacert'):
-            return self.data.get('<CACERT>')
+        cert = self.data.get('--cacert')
+        if cert:
+            return cert
         # Returns False to avoid ssl check
         return False
 
@@ -44,12 +45,12 @@ class Options(object):
 
     @property
     def host(self):
-        return self.data.get('<HOST>', '')
+        return self.data.get('--host', '')
 
     @property
     def username(self):
-        return self.data.get('<USERNAME>', '')
+        return self.data.get('--username', '')
 
     @property
     def password(self):
-        return self.data.get('<PASSWORD>', '')
+        return self.data.get('--password', '')

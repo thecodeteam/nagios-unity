@@ -22,13 +22,12 @@ import unittest
 class OptionTest(unittest.TestCase):
     def test_option(self):
         my_opt = opt.Options({
-            '<HOST>': '192.168.1.30',
-            '<USERNAME>': 'admin',
-            '<PASSWORD>': 'password',
+            '--host': '192.168.1.30',
+            '--username': 'admin',
+            '--password': 'password',
             '<OBJECT>': 'disk',
             '--verbose': True,
-            '--cacert': True,
-            '<CACERT>': '/tmp/cafile'})
+            '--cacert': '/tmp/cafile'})
         self.assertEqual("192.168.1.30", my_opt.host)
         self.assertEqual('admin', my_opt.username)
         self.assertEqual('password', my_opt.password)
