@@ -111,19 +111,19 @@ Configuration
 
 .. code-block:: ini
 
-    # Define a template for switches that we can reuse
+    # Define a template for storage that we can reuse
     define host{
             name                    storage-array      ; The name of this host template
             use                     generic-host       ; Inherit default values from the generic-host template
-            hostgroups              storage-arrays     ; Host groups that Windows servers should be a member of
-            check_period            24x7               ; By default, switches are monitored round the clock
-            check_interval          5                  ; Switches are checked every 5 minutes
-            retry_interval          1                  ; Schedule host check retries at 1 minute intervals
-            max_check_attempts      10                 ; Check each switch 10 times (max)
-            check_command           check-host-alive   ; Default command to check if routers are "alive"
+            hostgroups              storage-arrays     ; Host groups that storage arrays should be a member of
+            check_period            24x7               ; By default, storage arrays are monitored round the clock
+            check_interval          5                  ; Arrays are checked every 5 minutes
+            retry_interval          1                  ; Schedule array check retries at 1 minute intervals
+            max_check_attempts      10                 ; Check each array 10 times (max)
+            check_command           check-host-alive   ; Default command to check if arrays are "alive"
             notification_period     24x7               ; Send notifications at any time
             notification_interval   30                 ; Resend notifications every 30 minutes
-            notification_options    d,r                ; Only send notifications for specific host states
+            notification_options    d,r                ; Only send notifications for specific array states
             contact_groups          admins             ; Notifications get sent to the admins by default
             register                0                  ; DONT REGISTER THIS - ITS JUST A TEMPLATE
             }
@@ -152,9 +152,9 @@ Configuration
 
     define host{
         use         storage-array
-        host_name   OB_H1132        ; The name we're giving to this host
-        alias       My Nagios Unity ; A longer name associated with the host
-        address     10.245.101.35   ; IP address of the
+        host_name   OB_H1132        ; The name we're giving to this array
+        alias       My Nagios Unity ; A longer name associated with the array
+        address     10.245.101.35   ; IP address of the Unity array
         _user_name  admin           ; Customer variable for Unity user name
         _password   password        ; Customer variable for Unity password
     }
@@ -240,9 +240,9 @@ To do this:
 
     define host{
         use         storage-array
-        host_name   OB_H1132        ; The name we're giving to this host
-        alias       My Nagios Unity ; A longer name associated with the host
-        address     10.245.101.35   ; IP address of the
+        host_name   OB_H1132        ; The name we're giving to this array
+        alias       My Nagios Unity ; A longer name associated with the array
+        address     10.245.101.35   ; IP address of the Unity array
         _user_name  admin           ; Customer variable for Unity user name
         _password   password        ; Customer variable for Unity password
         _cacert     /path/to/CA     ; Customer variable for Unity CA certificate
