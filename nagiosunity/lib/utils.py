@@ -70,9 +70,16 @@ def print_if_failure(status_code, items):
     ids = [x[1] for x in status_code]
     failed_items = [item for item in items if item.id in ids]
     for failed in failed_items:
-        print("{}: Reason={}".format(failed.id, ";".join(
+        print("{}: Reason={}".format(failed.name, ";".join(
             failed.health.descriptions)))
     return len(failed_items)
+
+
+def get_by_id(_id, items):
+    for item in items:
+        if _id == item.id:
+            return item
+    return None
 
 
 def format_enum(enum):

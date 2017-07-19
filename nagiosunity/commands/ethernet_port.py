@@ -42,7 +42,9 @@ class EthernetPort(unity.UnityWrapper):
         code = code[0]
         status_mark = utils.get_status_mark("ETHERNET_PORT", code)
         first_line = "Total ethernet ports #{}, Failed ports(ID): {}".format(
-            len(ok + warning + critical + unknown), [c[1] for c in critical])
+            len(ok + warning + critical + unknown),
+            ', '.join([utils.get_by_id(c[1], self.ethernet_ports).name
+                       for c in critical]))
         # Status line
         print(status_mark + first_line + " | ")
         # Failed details

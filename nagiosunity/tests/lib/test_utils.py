@@ -61,8 +61,8 @@ class UtilsTest(unittest.TestCase):
         self.assertEqual("DISK OK: ", status)
 
     def test_print_if_failure(self):
-        items = [fake.FakeUnityObject(_id='sv_2', _code=1),
-                 fake.FakeUnityObject(_id='sv_3', _code=1)]
+        items = [fake.FakeUnityObject(_id='sv_2', _code=1, name="Lun 1"),
+                 fake.FakeUnityObject(_id='sv_3', _code=1, name="Lun 2")]
         status_code = [(1, 'sv_1'), (1, 'sv_3')]
         r = utils.print_if_failure(status_code, items)
         self.assertEqual(1, r)
