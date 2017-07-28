@@ -58,7 +58,7 @@ Here is the example:
         OBJECT  One of below values:
             battery, dae, disk, dpe,
             ethernet_port fan, fc_port,
-            io_module, lcc, memory_module,
+            io_module, lcc, lun, memory_module,
             pool, power_supply, sas_port,
             sp, ssc, ssd, system
 
@@ -87,6 +87,7 @@ Available monitoring commands
 - **fc_port**
 - **io_module**
 - **lcc**
+- **lun**
 - **memory_module**
 - **pool**
 - **power_supply**
@@ -95,6 +96,34 @@ Available monitoring commands
 - **ssc**
 - **ssd**
 - **system**
+
+Array health enum mapping
+-------------------------
+
+The nagios requires plugins to provide defined return codes for each periodic check, see `Plugin Return Codes <https://nagios-plugins.org/doc/guidelines.html#AEN78>`_ for more details.
+
+This plugin will perform following mapping between the Unity health enum and nagios return codes:
+
+
++-------------------+--------------------+-----------------------+
+| Unity Health Enum | Nagios Return Code | Nagios Service Status |
++-------------------+--------------------+-----------------------+
+| OK                | 0                  | OK                    |
++-------------------+--------------------+-----------------------+
+| OK_BUT            | 0                  | OK                    |
++-------------------+--------------------+-----------------------+
+| DEGRADED          | 1                  | WARNING               |
++-------------------+--------------------+-----------------------+
+| MINOR             | 1                  | WARNING               |
++-------------------+--------------------+-----------------------+
+| MAJOR             | 1                  | WARNING               |
++-------------------+--------------------+-----------------------+
+| CRITICAL          | 2                  | CRITICAL              |
++-------------------+--------------------+-----------------------+
+| NON_RECOVERABLE   | 2                  | CRITICAL              |
++-------------------+--------------------+-----------------------+
+| UNKNOWN           | 3                  | UNKNOWN               |
++-------------------+--------------------+-----------------------+
 
 
 Configuration

@@ -27,7 +27,7 @@ Arguments:
     OBJECT  One of below values:
         battery, dae, disk, dpe,
         ethernet_port fan, fc_port,
-        io_module, lcc, memory_module,
+        io_module, lcc, lun, memory_module,
         pool, power_supply, sas_port,
         sp, ssc, ssd, system
 
@@ -50,13 +50,9 @@ from docopt import docopt
 import nagiosunity
 from nagiosunity.cli import opt
 from nagiosunity import commands
+import urllib3
 
-try:
-    urllib3 = __import__('urllib3')
-except ImportError:
-    urllib3 = None
-if urllib3:
-    urllib3.disable_warnings()
+urllib3.disable_warnings()
 
 
 def main():
