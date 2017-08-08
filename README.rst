@@ -60,7 +60,7 @@ Here is the example:
             ethernet_port fan, fc_port,
             io_module, lcc, lun, memory_module,
             pool, power_supply, sas_port,
-            sp, ssc, ssd, system
+            sp, ssc, ssd, system, array_hardware
 
     Options:
         -h --help                         Show this screen.
@@ -96,6 +96,10 @@ Available monitoring commands
 - **ssc**
 - **ssd**
 - **system**
+- **array_hardware**
+
+
+**array_hardware** is a virtual command which combines a serial of hardware components of Unity.
 
 Array health enum mapping
 -------------------------

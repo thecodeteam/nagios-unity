@@ -2,6 +2,7 @@
 # coding=utf-8
 
 from setuptools import setup, find_packages
+import nagiosunity
 
 
 def read_requires(filename):
@@ -13,9 +14,10 @@ def read_raw(filename):
     with open(filename, "r") as f:
         return f.read()
 
+
 setup(
     name='nagios-unity',
-    version=__import__('nagiosunity').__version__,
+    version=nagiosunity.__version__,
     description=(
         'Unity plugin for Nagios.'
     ),
@@ -27,7 +29,7 @@ setup(
     license='Apache Software License',
     packages=find_packages(),
     platforms=["all"],
-    url='http://github.com/emc-openstack/nagios-unity',
+    url='http://github.com/thecodeteam/nagios-unity',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Operating System :: OS Independent',
