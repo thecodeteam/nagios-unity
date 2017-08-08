@@ -19,13 +19,21 @@ import storops
 
 
 class UnityWrapper(object):
+
+    _cached_connections = {}
+
     def __init__(self, options):
         self.options = options
 
     @property
     def unity(self):
-        return storops.UnitySystem(
-            host=self.options.host,
-            username=self.options.username,
-            password=self.options.password,
-            verify=self.options.cacert)
+        if self.options.host in UnityWrapper._cached_connections:
+            return UnityWrapper._cached_connections[self.options.host]
+        else:
+            session = storops.UnitySystem(
+                host=self.options.host,
+                username=self.options.username,
+                password=self.options.password,
+                verify=self.options.cacert)
+            UnityWrapper._cached_connections[self.options.host] = session
+            return session

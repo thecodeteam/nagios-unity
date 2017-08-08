@@ -15,7 +15,7 @@
 # under the License.
 
 from nagiosunity.commands import battery, sas_port, system, sp, pool, lcc, \
-    memory_module, power_supply, ssc, ssd, lun, dpe
+    memory_module, power_supply, ssc, ssd, lun, dpe, array_hardware
 from nagiosunity.commands import disk
 from nagiosunity.commands import dae
 from nagiosunity.commands import ethernet_port
@@ -41,6 +41,7 @@ COMMANDS = [battery.Battery,
             battery.Battery,
             ssc.Ssc,
             ssd.Ssd,
-            lun.Lun]
+            lun.Lun,
+            array_hardware.ArrayHardware]
 
 commands_dict = {cmd.name: cmd for cmd in COMMANDS}

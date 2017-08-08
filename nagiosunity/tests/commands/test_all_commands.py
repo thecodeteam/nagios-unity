@@ -24,7 +24,7 @@ from nagiosunity.tests import utils
 result_dict = {'battery': 0, 'dae': 0, 'disk': 0, 'dpe': 0, 'ethernet_port': 2,
                'fan': 0, 'fc_port': 1, 'io_module': 0, 'lcc': 0, 'lun': 0,
                'memory_module': 0, 'pool': 0, 'power_supply': 0, 'sas_port': 0,
-               'sp': 0, 'ssc': 0, 'ssd': 0, 'system': 0}
+               'sp': 0, 'ssc': 0, 'ssd': 0, 'system': 0, 'array_hardware': 2}
 
 
 @ddt

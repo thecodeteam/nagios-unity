@@ -29,7 +29,7 @@ Arguments:
         ethernet_port fan, fc_port,
         io_module, lcc, lun, memory_module,
         pool, power_supply, sas_port,
-        sp, ssc, ssd, system
+        sp, ssc, ssd, system, array_hardware
 
 Options:
     -h --help                         Show this screen.
@@ -85,6 +85,6 @@ def main():
         command = commands.commands_dict.get(cli_opt.command)
         return command(cli_opt).check()
     else:
-        raise ValueError("Invalid object specified: %s, "
+        raise ValueError("Invalid object specified: '%s', "
                          "use 'nagios-unity --help' for details."
                          % cli_opt.command)
