@@ -39,7 +39,8 @@ class PowerSupply(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.power_supplies)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("POWER SUPPLY", code)
         first_line = "Total power supplies #{}, Failed supplies: {}".format(

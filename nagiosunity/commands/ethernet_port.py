@@ -38,7 +38,8 @@ class EthernetPort(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.ethernet_ports)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("ETHERNET_PORT", code)
         first_line = "Total ethernet ports #{}, Failed ports(ID): {}".format(
@@ -53,7 +54,7 @@ class EthernetPort(unity.UnityWrapper):
         for port in self.ethernet_ports:
             print("{}: Link status={}, Requested Speed={}, "
                   "Current Speed={}".format(
-                    port.name, "UP" if port.is_link_up else "DOWN",
-                    utils.format_enum(port.requested_speed),
-                    utils.format_enum(port.speed)))
+                   port.name, "UP" if port.is_link_up else "DOWN",
+                   utils.format_enum(port.requested_speed),
+                   utils.format_enum(port.speed)))
         return code

@@ -38,7 +38,8 @@ class Dpe(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.dpe)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("DPE", code)
         first_line = "Total DPEs #{}, Failed DPE(ID): {}".format(
@@ -53,10 +54,10 @@ class Dpe(unity.UnityWrapper):
             print("{}: Power(curr/avg/max)={}/{}/{} watts, "
                   "Temperature(curr/avg/max)={}/{}/{} degrees , "
                   "Speed(curr/max)={}/{} GB".format(
-                    d.name,
-                    d.current_power, d.avg_power, d.max_power,
-                    d.current_temperature, d.avg_temperature,
-                    d.max_temperature,
-                    utils.byte_to_GB(d.current_speed),
-                    utils.byte_to_GB(d.max_speed)))
+                   d.name,
+                   d.current_power, d.avg_power, d.max_power,
+                   d.current_temperature, d.avg_temperature,
+                   d.max_temperature,
+                   utils.byte_to_GB(d.current_speed),
+                   utils.byte_to_GB(d.max_speed)))
         return code

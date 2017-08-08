@@ -37,7 +37,8 @@ class StorageProcessor(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.sp)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("SP", code)
         first_line = "Total SPs #{}, Failed SP(ID): {}".format(
@@ -50,9 +51,9 @@ class StorageProcessor(unity.UnityWrapper):
         for p in self.sp:
             print("{}: Rescue Mode={}, Bios Firmware Revision={}, "
                   "Post Firmware Revision={}, Needs Replacement={}".format(
-                    p.name,
-                    p.is_rescue_mode,
-                    p.bios_firmware_revision,
-                    p.post_firmware_revision,
-                    p.needs_replacement))
+                   p.name,
+                   p.is_rescue_mode,
+                   p.bios_firmware_revision,
+                   p.post_firmware_revision,
+                   p.needs_replacement))
         return code

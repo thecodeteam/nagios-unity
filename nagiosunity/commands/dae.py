@@ -37,7 +37,8 @@ class Dae(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.dae)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("DAE", code)
         first_line = "Total DAEs #{}, Failed DAE(ID): {}".format(
@@ -49,13 +50,13 @@ class Dae(unity.UnityWrapper):
         utils.print_if_failure(all_status[code], self.dae)
         # Performance detail
         for d in self.dae:
-            print("{}: Power(curr/avg/max)={}/{}/{} watts, "
-                  "Temperature(curr/avg/max)={}/{}/{} degrees , "
+            print("{}: Power(curr/avg/max_if_not_empty)={}/{}/{} watts, "
+                  "Temperature(curr/avg/max_if_not_empty)={}/{}/{} degrees , "
                   "Speed(curr/max)={}/{} GB".format(
-                    d.name,
-                    d.current_power, d.avg_power, d.max_power,
-                    d.current_temperature, d.avg_temperature,
-                    d.max_temperature,
-                    utils.byte_to_GB(d.current_speed),
-                    utils.byte_to_GB(d.max_speed)))
+                   d.name,
+                   d.current_power, d.avg_power, d.max_power,
+                   d.current_temperature, d.avg_temperature,
+                   d.max_temperature,
+                   utils.byte_to_GB(d.current_speed),
+                   utils.byte_to_GB(d.max_speed)))
         return code

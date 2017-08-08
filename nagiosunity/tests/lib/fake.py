@@ -22,7 +22,7 @@ class FakeUnity(object):
         pass
 
     def get_battery(self):
-        return [FakeUnityObject('bt_1', 5)]
+        return []
 
     def get_dae(self):
         return [FakeUnityObject('dae_1', 7, name='dae 1', current_power=151,

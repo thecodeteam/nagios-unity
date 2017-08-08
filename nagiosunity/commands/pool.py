@@ -38,7 +38,8 @@ class Pool(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.pools)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("POOL", code)
         first_line = "Total POOLs #{}, Failed POOLs: {}".format(
@@ -54,8 +55,8 @@ class Pool(unity.UnityWrapper):
         for p in self.pools:
             print("{}: Total Cap={} GiB, "
                   "Available Cap={} GiB({:.2f}%) ".format(
-                    p.name,
-                    utils.byte_to_GiB(p.size_total),
-                    utils.byte_to_GiB(p.size_free),
-                    (p.size_free / p.size_total) * 100))
+                   p.name,
+                   utils.byte_to_GiB(p.size_total),
+                   utils.byte_to_GiB(p.size_free),
+                   (p.size_free / p.size_total) * 100))
         return code

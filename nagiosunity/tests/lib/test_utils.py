@@ -27,9 +27,17 @@ class UtilsTest(unittest.TestCase):
         size_gb = utils.byte_to_GiB(1024 * 1024 * 1024)
         self.assertEqual(1, size_gb)
 
+    def test_byte_to_GiB_None(self):
+        size_gb = utils.byte_to_GiB(None)
+        self.assertEqual(0, size_gb)
+
     def test_byte_to_GB(self):
         size_gb = utils.byte_to_GB(1000 * 1000 * 1000)
         self.assertEqual(1, size_gb)
+
+    def test_byte_to_GB_None(self):
+        size_gb = utils.byte_to_GB(None)
+        self.assertEqual(0, size_gb)
 
     def test_get_single_status_ok(self):
         obj = mock.Mock()
@@ -72,3 +80,12 @@ class UtilsTest(unittest.TestCase):
         e.description = "hello"
         r = utils.format_enum(e)
         self.assertEqual(r, "hello")
+
+    def test_max_if_not_empty(self):
+        r = utils.max_if_not_empty([(1, mock.Mock()), (2, mock.Mock())],
+                                   key=lambda x: x[0])
+        self.assertEqual(2, r[0])
+
+    def test_max_if_not_empty_empty(self):
+        r = utils.max_if_not_empty(None)
+        self.assertEqual(0, r[0])

@@ -40,7 +40,8 @@ class SasPort(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.sas_ports)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("SAS_PORT", code)
         first_line = "Total SAS ports #{}, Failed ports(ID): {}".format(

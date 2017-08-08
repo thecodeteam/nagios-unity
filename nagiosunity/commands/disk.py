@@ -45,14 +45,15 @@ class Disk(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.disks)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("DISK", code)
         first_line = "Total Disks #{}, Failed Disks: {}, Hot spares: {}, " \
                      "Unbounded: {}".format(
-                        len(ok + warning + critical + unknown),
-                        [c[1] for c in critical], self.get_hot_spares(),
-                        self.get_unbounded_disks())
+                      len(ok + warning + critical + unknown),
+                      [c[1] for c in critical], self.get_hot_spares(),
+                      self.get_unbounded_disks())
         # Status line
         print(status_mark + first_line + " | ")
 

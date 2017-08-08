@@ -20,10 +20,14 @@ status_dict = {0: "OK", 1: "WARNING", 2: "CRITICAL", 3: "UNKNOWN"}
 
 
 def byte_to_GiB(size_byte):
+    if not size_byte:
+        return 0
     return bitmath.Byte(size_byte).to_GiB().value
 
 
 def byte_to_GB(size_byte):
+    if not size_byte:
+        return 0
     return bitmath.Byte(size_byte).to_GB().value
 
 
@@ -60,7 +64,7 @@ def get_single_status(obj):
 
 def get_status_mark(obj, mark):
     status = status_dict.get(mark)
-    return "{} {}: ".format(obj, status)
+    return "{} {}: ".format(obj.upper(), status)
 
 
 def print_if_failure(status_code, items):
@@ -85,3 +89,10 @@ def get_by_id(_id, items):
 def format_enum(enum):
     if enum:
         return enum.description
+
+
+def max_if_not_empty(data, key=None):
+    if data:
+        return max(data, key=key)
+    else:
+        return 0, None

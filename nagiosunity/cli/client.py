@@ -47,14 +47,35 @@ Examples:
 
 from docopt import docopt
 
+import functools
 import nagiosunity
+from nagiosunity.lib import utils
 from nagiosunity.cli import opt
 from nagiosunity import commands
+import requests
 import urllib3
+import sys
 
 urllib3.disable_warnings()
 
 
+def wrap_connection_error(func):
+    @functools.wraps(func)
+    def inner(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except requests.ConnectionError:
+            code = 1  # set to warning status
+            status_mark = utils.get_status_mark(sys.argv[-1:][0], code)
+            first_line = ("ConnectionError occurred, "
+                          "the array is offline or unreachable.")
+            print(status_mark + first_line + " | ")
+            return code
+
+    return inner
+
+
+@wrap_connection_error
 def main():
     """Main cli entry point for distributing cli commands."""
     options = docopt(__doc__, version=nagiosunity.__version__)

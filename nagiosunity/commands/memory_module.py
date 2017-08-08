@@ -39,7 +39,8 @@ class MemoryModule(unity.UnityWrapper):
     def check(self):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.memory_modules)
-        code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+        code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                      key=lambda i: i[0])
         code = code[0]
         status_mark = utils.get_status_mark("MEMORY MODULE", code)
         first_line = "Total memory modules #{}, Failed modules: {}".format(

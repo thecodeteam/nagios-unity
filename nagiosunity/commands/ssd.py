@@ -40,7 +40,8 @@ class Ssd(unity.UnityWrapper):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.ssds)
         if len(self.ssds):
-            code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+            code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                          key=lambda i: i[0])
             code = code[0]
         status_mark = utils.get_status_mark("SSD", code)
         first_line = "Total SSDs #{}, Failed SSDs: {}".format(

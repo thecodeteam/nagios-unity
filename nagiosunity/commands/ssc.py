@@ -40,7 +40,8 @@ class Ssc(unity.UnityWrapper):
         all_status = ok, warning, critical, unknown = utils.get_all_status(
             self.sscs)
         if len(self.sscs):
-            code = max(ok + warning + critical + unknown, key=lambda i: i[0])
+            code = utils.max_if_not_empty(ok + warning + critical + unknown,
+                                          key=lambda i: i[0])
             code = code[0]
         status_mark = utils.get_status_mark("SYSTEM STATUS CARD", code)
         first_line = "Total SSCs #{}, Failed SSCs: {}".format(
