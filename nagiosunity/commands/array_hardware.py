@@ -66,7 +66,7 @@ class ArrayHardware(unity.UnityWrapper):
             print(utils.get_status_mark("HARDWARE", code) +
                   "Modules with problems: " +
                   ";".join(map(lambda x: x.split()[0], output[code])) + " | ")
-        print('------\n'.join(output[code]))
+        print('------\n'.join(output[code]).replace("|", ""))
         return code
 
     def combined_output(self):
