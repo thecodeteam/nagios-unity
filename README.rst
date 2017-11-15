@@ -4,17 +4,12 @@ nagios-unity
 Nagios plugin for monitoring Unity system
 
 ``nagios-unity`` is built on top of ``storops``, which interacts with Unity storage via RESTful API. ``nagios-unity`` provides
-a easy-to-use command line interface for invocation of nagios servers. ``nagios-unity`` follows the output rules defined
+an easy-to-use command line interface for invocation of nagios servers. ``nagios-unity`` follows the output rules defined
 by `Print only one line of text <https://nagios-plugins.org/doc/guidelines.html#AEN33>`_
 
-License
--------
-
-`Apache license version 2 <LICENSE>`_
 
 Installation
 ------------
-
 
 From Pypi
 ^^^^^^^^^
@@ -284,7 +279,6 @@ To do this:
 - Restart nagios service to reflect the changes.
 
 
-
 Contributions
 -------------
 
@@ -292,4 +286,7 @@ Simply fork this repo and send PR for your code change(also tests to cover your 
 remember to give a title and description of your PR. We are willing to enhance this project with you :).
 
 
+License
+-------
 
+`Apache license version 2 <LICENSE>`_
